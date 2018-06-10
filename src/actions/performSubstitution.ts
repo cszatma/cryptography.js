@@ -11,7 +11,7 @@ export default (
   const randomGenerator = new Random(hash);
   const firstNumbers: number[] = [];
   const secondNumbers: number[] = [];
-  console.log(alphabet.length);
+
   // Gets all the necessary numbers for the substitution
   for (let i = 0; i < 100; i++) {
     firstNumbers[i] = randomGenerator.int32(27);
@@ -32,9 +32,6 @@ export default (
       modifiedText = swapChars(modifiedText, firstChar, secondChar);
     }
   }
-
-  console.log(modifiedAlphabet);
-  console.log(modifiedText);
 
   if (command === 'decrypt') {
     if (isLastLine) {
