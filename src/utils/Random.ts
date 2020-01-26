@@ -1,4 +1,4 @@
-import seedrandom, { PRNG } from './seedrandom.ts';
+import seedrandom, { PRNG } from "./seedrandom.ts";
 
 export default class Random {
   private generator: PRNG;

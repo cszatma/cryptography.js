@@ -1,15 +1,19 @@
-export const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ ';
+export const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ ";
 
 export function removeSpecialChars(str: string): string {
   return str
-    .split('')
-    .map(char => (alphabet.indexOf(char) === -1 ? ' ' : char))
-    .join('');
+    .split("")
+    .map(char => (alphabet.indexOf(char) === -1 ? " " : char))
+    .join("");
 }
 
-export function swapChars(str: string, firstChar: string, secondChar: string): string {
+export function swapChars(
+  str: string,
+  firstChar: string,
+  secondChar: string
+): string {
   return str
-    .split('')
+    .split("")
     .map(char => {
       if (char === firstChar) {
         return secondChar;
@@ -19,17 +23,18 @@ export function swapChars(str: string, firstChar: string, secondChar: string): s
 
       return char;
     })
-    .join('');
+    .join("");
 }
 
-export function replaceCharAt(index: number, str: string, replacement: string): string {
+export function replaceCharAt(
+  index: number,
+  str: string,
+  replacement: string
+): string {
   return (
-    str.substr(0, index) +
-    replacement +
-    str.substr(index + replacement.length)
+    str.substr(0, index) + replacement + str.substr(index + replacement.length)
   );
 }
-
 
 export function removeCharAt(index: number, str: string) {
   return str.slice(0, index) + str.slice(index + 1);
@@ -48,4 +53,4 @@ export function hashCode(str: string) {
   }
 
   return hash;
-};
+}

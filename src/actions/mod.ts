@@ -1,17 +1,23 @@
-import Random from '../utils/random.ts';
-import { generateGrid, gridToString } from '../utils/grid.ts';
-import { alphabet, hashCode, removeCharAt, removeSpecialChars, swapChars } from '../utils/chars.ts';
+import Random from "../utils/random.ts";
+import { generateGrid, gridToString } from "../utils/grid.ts";
+import {
+  alphabet,
+  hashCode,
+  removeCharAt,
+  removeSpecialChars,
+  swapChars
+} from "../utils/chars.ts";
 
 export const enum Action {
-  encrypt = 'encrypt',
-  decrypt = 'decrypt',
+  encrypt = "encrypt",
+  decrypt = "decrypt"
 }
 
 function performSubstitution(
   text: string,
   hash: number,
   action: Action,
-  isLastLine: boolean,
+  isLastLine: boolean
 ): string {
   const randomGenerator = new Random(hash);
   const firstNumbers: number[] = [];
@@ -31,17 +37,16 @@ function performSubstitution(
     const firstChar = modifiedAlphabet.charAt(firstNumbers[i]);
     const secondChar = modifiedAlphabet.charAt(secondNumbers[i]);
     modifiedAlphabet = swapChars(modifiedAlphabet, firstChar, secondChar);
-    // console.log(modifiedAlphabet);
 
-    if (action === 'encrypt') {
+    if (action === "encrypt") {
       modifiedText = swapChars(modifiedText, firstChar, secondChar);
     }
   }
 
-  if (action === 'decrypt') {
+  if (action === "decrypt") {
     if (isLastLine) {
       for (let i = modifiedText.length - 1; i >= 0; i--) {
-        if (modifiedText.charAt(i) === ' ') {
+        if (modifiedText.charAt(i) === " ") {
           modifiedText = removeCharAt(i, modifiedText);
         } else {
           break;
@@ -57,13 +62,14 @@ function performSubstitution(
     }
   }
 
-  console.log(modifiedText);
-
   return modifiedText;
 }
 
-
-function performTransposition(text: string, hash: number, action: Action): string {
+function performTransposition(
+  text: string,
+  hash: number,
+  action: Action
+): string {
   const randomGenerator = new Random(hash);
   const numbers = [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -80,24 +86,32 @@ function performTransposition(text: string, hash: number, action: Action): strin
   return gridToString(generateGrid(fixedText), numbers, action);
 }
 
-export function decrypt(key: string, input: string, isLastLine: boolean): string {
+export function decrypt(
+  key: string,
+  input: string,
+  isLastLine: boolean
+): string {
   const hash = hashCode(key);
 
   return performSubstitution(
     performTransposition(input, hash, Action.decrypt),
     hash,
     Action.decrypt,
-    isLastLine,
+    isLastLine
   );
 }
 
-export function encrypt(key: string, input: string, isLastLine: boolean): string {
+export function encrypt(
+  key: string,
+  input: string,
+  isLastLine: boolean
+): string {
   const hash = hashCode(key);
   const cleanInput = removeSpecialChars(input);
 
   return performTransposition(
     performSubstitution(cleanInput, hash, Action.encrypt, isLastLine),
     hash,
-    Action.encrypt,
+    Action.encrypt
   );
 }

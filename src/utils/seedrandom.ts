@@ -55,9 +55,9 @@ function seedrandom(seed: any, options?: any, callback?: any): PRNG {
         : seed == null
         ? autoseed()
         : seed,
-      3,
+      3
     ),
-    key,
+    key
   );
 
   // Use the seed to initialize an ARC4 generator.
@@ -114,10 +114,7 @@ function seedrandom(seed: any, options?: any, callback?: any): PRNG {
 
       return prng;
     }
-  )(
-    prng,
-    options.state,
-  );
+  )(prng, options.state);
 }
 
 //
@@ -193,14 +190,14 @@ function flatten(obj: any, depth: any): any {
   var result = [],
     typ = typeof obj,
     prop;
-  if (depth && typ == 'object') {
+  if (depth && typ == "object") {
     for (prop in obj) {
       try {
         result.push(flatten(obj[prop], depth - 1));
       } catch (e) {}
     }
   }
-  return result.length ? result : typ == 'string' ? obj : obj + '\0';
+  return result.length ? result : typ == "string" ? obj : obj + "\0";
 }
 
 //
@@ -209,7 +206,7 @@ function flatten(obj: any, depth: any): any {
 // returns a shortened string seed that is equivalent to the result key.
 //
 function mixkey(seed: any, key: any) {
-  var stringseed = seed + '',
+  var stringseed = seed + "",
     smear: any,
     j = 0;
   while (j < stringseed.length) {
@@ -225,9 +222,9 @@ function mixkey(seed: any, key: any) {
 // module if available.
 //
 function autoseed() {
-    const out = new Uint8Array(width)
-    crypto.getRandomValues(out)
-    return tostring(out);
+  const out = new Uint8Array(width);
+  crypto.getRandomValues(out);
+  return tostring(out);
 }
 
 //

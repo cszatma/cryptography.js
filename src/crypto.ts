@@ -1,10 +1,10 @@
-import * as fs from 'https://deno.land/std/fs/mod.ts';
-import { resolve, dirname } from 'https://deno.land/std/path/mod.ts';
-import { processInput } from './mod.ts';
+import * as fs from "https://deno.land/std/fs/mod.ts";
+import { resolve, dirname } from "https://deno.land/std/path/mod.ts";
+import { processInput } from "./mod.ts";
 
 const args = Deno.args;
 if (args.length !== 4) {
-  console.log('Usage: crypto <command> <key> <input file> <output file>');
+  console.log("Usage: crypto <command> <key> <input file> <output file>");
   Deno.exit(1);
 }
 
@@ -19,15 +19,15 @@ if (!fs.existsSync(inputFile)) {
   Deno.exit(1);
 }
 
-console.log('Generating output...');
+console.log("Generating output...");
 // Get the output
 const outputData = processInput(
   command,
   key,
-  fs.readFileStrSync(inputPath, { encoding: 'utf-8' }),
+  fs.readFileStrSync(inputPath, { encoding: "utf-8" })
 );
 
-console.log('Writing to file...');
+console.log("Writing to file...");
 // Write the output file
 const outputPath = resolve(outputFile);
 fs.ensureDirSync(dirname(outputPath));
