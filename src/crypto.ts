@@ -1,32 +1,22 @@
-#!/usr/bin/env node
+import * as fs from 'https://deno.land/std/fs/mod.ts';
+import { resolve, dirname } from 'https://deno.land/std/path/mod.ts';
+import { processInput } from './mod.ts';
 
-process.on('unhandledRejection', err => {
-  throw err;
-});
-
-import fs from 'fs';
-import path from 'path';
-
-import './utils/stringExtensions';
-import processInput from './processInput';
-import ensureDirSync from './utils/ensureDirSync';
-
-const args = process.argv.slice(2);
-
+const args = Deno.args;
 if (args.length !== 4) {
   console.log('Usage: crypto <command> <key> <input file> <output file>');
-  process.exit(1);
+  Deno.exit(1);
 }
 
 const [rawCommand, key, inputFile, outputFile] = args;
 const command = rawCommand.trim().toLowerCase();
 
-const inputPath = path.resolve(inputFile);
+const inputPath = resolve(inputFile);
 
 // Make sure the input file exists
 if (!fs.existsSync(inputFile)) {
   console.log(`Error: Input file '${inputPath}' does not exist.`);
-  process.exit(1);
+  Deno.exit(1);
 }
 
 console.log('Generating output...');
@@ -34,14 +24,14 @@ console.log('Generating output...');
 const outputData = processInput(
   command,
   key,
-  fs.readFileSync(inputPath).toString('utf8'),
+  fs.readFileStrSync(inputPath, { encoding: 'utf-8' }),
 );
 
 console.log('Writing to file...');
 // Write the output file
-const outputPath = path.resolve(outputFile);
-ensureDirSync(outputPath);
-fs.writeFileSync(outputPath, outputData, { encoding: 'utf8' });
+const outputPath = resolve(outputFile);
+fs.ensureDirSync(dirname(outputPath));
+fs.writeFileStrSync(outputPath, outputData);
 
 console.log(`Successfully wrote result to ${outputPath}.`);
-process.exit(0);
+Deno.exit(0);

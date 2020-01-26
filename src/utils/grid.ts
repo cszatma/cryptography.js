@@ -1,3 +1,5 @@
+import { Action } from '../actions/mod.ts';
+
 export type Grid = string[][];
 
 export const emptyGrid = (rows: number, columns: number = rows): Grid =>
@@ -24,14 +26,14 @@ export const generateGrid = (text: string): string[][] =>
 export const gridToString = (
   grid: string[][],
   order: number[],
-  command: Command,
+  action: Action,
 ): string => {
-  if (command === 'decrypt') {
+  if (action === Action.decrypt) {
     grid = rearrangeGrid(grid, order);
   }
 
   const transpose = gridTranspose(grid);
-  const sequence = command === 'encrypt' ? order : [...Array(8).keys()];
+  const sequence = action === Action.encrypt ? order : [...Array(8).keys()];
 
   return sequence.map(index => transpose[index].join('')).join('');
 };

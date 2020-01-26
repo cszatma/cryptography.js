@@ -1,10 +1,10 @@
-import seedrandom, { prng, seedRandomOptions } from 'seedrandom';
+import seedrandom, { PRNG } from './seedrandom.ts';
 
 export default class Random {
-  private generator: prng;
+  private generator: PRNG;
 
-  constructor(seed?: any, options?: seedRandomOptions) {
-    this.generator = seedrandom(seed.toString(), options);
+  constructor(seed?: any) {
+    this.generator = seedrandom(seed.toString());
   }
 
   public int32(max: number = 1): number {

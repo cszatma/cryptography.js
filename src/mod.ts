@@ -1,21 +1,24 @@
-import encrypt from './actions/encrypt';
-import decrypt from './actions/decrypt';
+import { Action, encrypt, decrypt } from './actions/mod.ts';
 
-export default (command: string, key: string, input: string): string => {
+function processInput(command: string, key: string, input: string): string {
   let commandFn: (key: string, input: string, isLastLine: boolean) => string;
 
-  if (command === 'encrypt') {
+  if (command === Action.encrypt) {
     commandFn = encrypt;
-  } else if (command === 'decrypt') {
+  } else if (command === Action.decrypt) {
     commandFn = decrypt;
   } else {
-    console.log(`Error: Unknown command '${command}'`);
-    process.exit(1);
+    throw new Error(`Unknown command '${command}'`)
   }
 
   const inputLines = input.toUpperCase().match(/.{1,64}/g)!;
-
   return inputLines
     .map((line, index) => commandFn(key, line, index === inputLines.length - 1))
     .join('\n');
+}
+
+export {
+  processInput,
+  encrypt,
+  decrypt,
 };
